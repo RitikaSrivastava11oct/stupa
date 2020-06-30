@@ -15,9 +15,6 @@ class Home extends Component {
             refreshing: false
         }
     }
-    componentWillReceiveProps(nextProps){
-        console.log('nextProps',nextProps);
-    }
 
     async fetchData(){
         try {

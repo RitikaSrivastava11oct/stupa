@@ -31,7 +31,8 @@ export const styles = ScaledSheet.create(
         },
         login: {
             justifyContent: 'center',
-            margin: 4,
+            margin: scale(4),
+            flex:1
         },
         formButton: {
             margin: scale(17),

@@ -29,10 +29,6 @@ class Registration extends Component {
      }
     }
 
-    componentWillReceiveProps(nextProps){
-        console.log('componentWillReceiveProps Home ***');
-    }
-
     static navigationOptions = {
         title: 'Registration'
     }
@@ -104,7 +100,6 @@ class Registration extends Component {
     }
 
     render() {
-        console.log('reg render');
         const errors = this.validate( this.state.Name , this.state.lastName , this.state.emailId , this.state.password , this.state.confirmPassword , this.state.contactNo);
         let radio_props = [
             {label: 'Male', value: 'Male' },

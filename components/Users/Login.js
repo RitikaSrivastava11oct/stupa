@@ -45,7 +45,6 @@ class Login extends Component {
     };
   
     render() {
-        console.log('login render');
         return(
             <View style={styles.login}>
             <View style = {{margin : scale(12)}}>
@@ -53,7 +52,7 @@ class Login extends Component {
                     placeholder=" EmailID"
                     keyboardType='email-address'
                     leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-                    leftIconContainerStyle={{ marginLeft: 0, marginRight: 10 }}
+                    leftIconContainerStyle={{ marginLeft: scale(0), marginRight: scale(10) }}
                     onChangeText={text => this.state.emailId= text }
                     
                 />
@@ -66,7 +65,7 @@ class Login extends Component {
                         onPress:()=>{this.toggleEyeIcon()}
                     }}
                     leftIcon={{ type: 'font-awesome', name: 'key' }}
-                    leftIconContainerStyle={{ marginLeft: 0, marginRight: 10}}
+                    leftIconContainerStyle={{ marginLeft: scale(0), marginRight: scale(10)}}
                     onChangeText={text => this.state.password= text }
                     />
             </View>
