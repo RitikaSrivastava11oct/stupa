@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1068104000963",
+    "firebase_url": "https://stupa-fff67.firebaseio.com",
+    "project_id": "stupa-fff67",
+    "storage_bucket": "stupa-fff67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1068104000963:android:50ebb9966d1c1b39420976",
+        "android_client_info": {
+          "package_name": "com.stupa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1068104000963-prr6t1lthaot37g8789ugr26bf2ukjh7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACVvtYYptKzPmVAbBzOl9vNXgmOx0PzY4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1068104000963-prr6t1lthaot37g8789ugr26bf2ukjh7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
