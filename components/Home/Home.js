@@ -1,108 +1,49 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList,ScrollView ,Platform ,ToastAndroid ,RefreshControl} from 'react-native';
-import { Loading } from '../LoadingComponent';
-import { isEmpty} from '../../utils/general';
-import { home } from './homeApi';
-import { scale } from 'react-native-size-matters';
-import { styles } from '../../utils/style';
+import { Text, View,Button} from 'react-native';
+// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import  test  from "../test";
+import NewPage from '../NewPage';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createAppContainer} from 'react-navigation';
+// import BottomTabs from "../BottomTabs";
 
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            loading : true,
-            users: '',
-            refreshing: false
-        }
     }
 
-    async fetchData(){
-        try {
-            let data = await home.getUsers();
-            if (data.result) {
-                this.setState({users: data.results,
-                                loading : false, refreshing : false});
-            }   
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-
-
-    async componentDidMount() {
-        this.fetchData();
-    }
     
     static navigationOptions = {
         title: 'Home'
     }
 
     render(){
-        console.log('render');
-        const renderUsers=({ item, index })=>{
-            return(
-                <View style={{ padding :10}}>
-                    <View style={{ flexDirection :'column'}}>
-                        <View style={{ flexDirection :'row'}}>
-                            <Text style={styles.homeLabel}> Name : </Text>
-                            <Text  style={styles.homeText}>
-                                {(!isEmpty(item.Name)?item.Name:'')}
-                            </Text>
-                        </View> 
-                        <View style={{ flexDirection :'row'}}>
-                            <Text style={styles.homeLabel}> Contact No : </Text>
-                            <Text style={styles.homeText}>
-                                {(!isEmpty(item.contactNo)?item.contactNo:'')}
-                            </Text>
-                        </View> 
-                        <View style={{ flexDirection :'row'}}>
-                            <Text style={styles.homeLabel}> Email ID : </Text>
-                            <Text style={styles.homeText}>
-                                {(!isEmpty(item.emailId)?item.emailId:'')}
-                            </Text>
-                        </View> 
-                        <View style={{ flexDirection :'row'}}>
-                            <Text style={styles.homeLabel}> City : </Text>
-                            <Text style={styles.homeText}>
-                                {(!isEmpty(item.city)?item.city:'')}
-                            </Text>
-                        </View>      
-                        <View style={{ flexDirection :'row'}}>
-                            <Text style={styles.homeLabel}> Gender : </Text>
-                            <Text style={styles.homeText}>
-                                {(!isEmpty(item.gender)?item.gender:'')}
-                            </Text>
-                        </View>             
-                    </View>
-                </View>
-            );
-        };
+        const navigate = this.props.navigation.navigate;
+        // const Tab = createBottomTabNavigator();
+        const tab=createBottomTabNavigator({
+            Home: { screen: Home },
+            NewPage: { screen: NewPage }
+          });
+          
 
         return(
-        this.state.loading?<Loading/>:
-           (
-               <ScrollView style={{ height : '100%' , flex: 1}} contentContainerStyle={{ flexGrow :1}}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={()=> {
-                                this.setState({refreshing: true});
-                                this.fetchData()}}
-                        />
-                    }
-               >
-
-                <View style={styles.homeFlatlist}>
-                    <FlatList 
-                        data={this.state.users}
-                        renderItem={renderUsers}
-                        keyExtractor={item => !isEmpty(item.id)?item.id.toString():''}
+            <View style={{padding:20}}>
+                <Text >Hello World!</Text>
+                <View style={{ marginTop:20, width:200}}>
+                    <Button
+                        title="Go to Another page"
+                        onPress={() =>
+                            navigate('NewPage', { name: 'Jane' })
+                        }
                     />
                 </View>
-            </ScrollView>
-            )
-        )
+                {createAppContainer(tab)}
+                {/* <Tab.Navigator>
+                <Tab.Screen name="Home" />
+                <Tab.Screen name="Test" component={test} />
+                </Tab.Navigator> */}
+            </View>
+        );
 
     }
 }

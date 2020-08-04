@@ -91,13 +91,16 @@ apply from: "../../node_modules/react-native/react.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = false
+// def enableSeparateBuildPerCPUArchitecture = false
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+// def enableProguardInReleaseBuilds = false
 
+//ADDED TO REDUCE APP SIZE
+def enableProguardInReleaseBuilds = true
+def enableSeparateBuildPerCPUArchitecture = true 
 /**
  * The preferred build flavor of JavaScriptCore.
  *
