@@ -1,86 +1,141 @@
-import React from 'react';
-import { Button, View, Text } from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createStackNavigator} from '@react-navigation/stack';
-// import { Ionicons } from '@expo/vector-icons';
+import React, { Component } from 'react';
+import { View, Platform, Image, ScrollView, Text, AsyncStorage } from 'react-native';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
+import { createAppContainer, SafeAreaView } from 'react-navigation';
 import { Icon } from 'react-native-elements';
+import Home from './Home/Home';
+import AlbumDetail from './Home/AlbumDetail';
+import NewPage from "./NewPage";
+import { styles, themeColor, drawerBackgroundColor } from '../utils/style';
+import Header from './Header';
 
-const Tab = createBottomTabNavigator();
-function HomeScreen() {
-  return (
-    <Tab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused, color, size }) => {
-     let iconName;
-     if (route.name === 'Home') {
-        iconName = focused
-        ? 'home'
-        : 'home';
-      } else if (route.name === 'New Page') {
-        iconName = focused
-        ? 'list'
-        : 'list';
+
+class Main extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true
+    };
+
+  }
+
+ 
+
+  render() {
+
+    const HomeNavigator = createStackNavigator({
+      Home: {
+        screen: Home,
+        navigationOptions: ({ navigation }) => ({
+          headerLeft: () => (<Header navigation={navigation} />)
+        })
+      },
+      AlbumDetail: { screen: AlbumDetail }
+    },
+      {
+        initialRouteName: 'Home',
+        defaultNavigationOptions: ({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: themeColor
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff"
+          }
+        })
+      },
+    );
+
+    const NewPageNavigator = createStackNavigator({
+      NewPage: { screen: NewPage }
+    },
+      {
+        initialRouteName: 'NewPage',
+        defaultNavigationOptions: ({ navigation }) => ({
+          headerStyle: {
+            backgroundColor: themeColor
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+
+            color: "#fff"
+          }
+        })
       }
-  return <Icon name={iconName} size={size} color={color} />;
-        },
-      })}
-      tabBarOptions={{
-      activeTintColor: 'tomato',
-      inactiveTintColor: 'gray',
-      }}
-    >
-        <Tab.Screen name="Home" component={TabAScreen} />
-        <Tab.Screen name="New Page" component={NewPageScreen} />
-    </Tab.Navigator>
-  );
-}
-function NewPageScreen({ navigation }) {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="New Page" component={TabBDetailsScreen} />
-    </Stack.Navigator>
+    );
+ 
 
-  );
-}
-const Stack = createStackNavigator();
-function TabAScreen() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={TabADetailsScreen} />
-    </Stack.Navigator>
-  );
-}
-function TabADetailsScreen({navigation}) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center',  alignItems: 'center' }}>
-      <Text>
-        Welcome to Home page!
-      </Text>
-    </View>
-  );
-}
-function TabBDetailsScreen({navigation}) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Welcome to New page!</Text>
-    </View>
-  );
-}
+    const MainNavigator = createDrawerNavigator({
+      'Home':
+      {
+        screen: HomeNavigator,
+        navigationOptions: {
+          title: 'Home',
+          drawerLabel: <Text style={styles.drawerLabel}>Home</Text>,
+          drawerIcon: () => (
+            <Icon
+              name='home'
+              type='font-awesome'
+              size={24}
+              iconStyle={{ color: '#654321' }}
+            />
+          )
+        }
+      },
+      'New Page':
+      {
+        screen: NewPageNavigator,
+        navigationOptions: {
+          title: 'New Page',
+          drawerLabel: <Text style={styles.drawerLabel}>New Page</Text>,
+          drawerIcon: () => (
+            <Icon
+              name='list'
+              type='font-awesome'
+              size={24}
+              iconStyle={{ color: '#654321' }}
+            />
+          )
+        }
+      }
+    }, {
+      contentComponent: (props) => (
+       <SafeAreaView style={{ flex : 1 }}>
+         <View style={styles.mainContent}>
+           <View>
+            <Image source={require('./images/welcome.jpg')} 
+                  style={styles.mainImage} />
+           </View>
+           <View style ={styles.titleView}>
+              <Text style={styles.titleText}>
+                  Header Labs
+              </Text>
+            </View>
+          </View>
 
+          <ScrollView>
+            <DrawerItems {...props} />
+          </ScrollView>
+        </SafeAreaView>
+      )
+    }, {
+      drawerBackgroundColor: drawerBackgroundColor,
+      contentOptions: {
+        activeTintColor: '#654321',
+        inactiveTintColor: '#654321'
+      },
+      initialRouteName: 'Home',
+    });
+    const AppCategoryNavigator = createAppContainer(MainNavigator);
 
-const Drawer = createDrawerNavigator();
-function Main() {
-  return (
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="New Page" component={NewPageScreen} />
-      </Drawer.Navigator>
-    </NavigationContainer>
-  )
+    return (
+      <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : 1 }}>
+        <AppCategoryNavigator />
+      </View >
+    );
+  }
 }
-
 
 export default Main;
